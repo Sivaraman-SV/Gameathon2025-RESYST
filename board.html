@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>ScholarSync</title>
+  
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
+<link rel="stylesheet" href="./style.css">
+
+</head>
+
+<body>
+    <video autoplay muted loop id="myVideo">
+        <source src="bg.mp4" type="video/mp4">
+        </video>
+    
+<fieldset class="checkbox-group">
+	<legend class="checkbox-group-legend">Which Board ?</legend>
+    
+	<div class="checkbox">
+		<label class="checkbox-wrapper">
+			<input type="checkbox" class="checkbox-input" />
+			<span class="checkbox-tile">
+				<span class="checkbox-icon">
+					<svg xmlns="http://www.w3.org/2000/svg" width="192" height="192" fill="currentColor" viewBox="0 0 256 256">
+						<rect width="256" height="256" fill="none"></rect>
+						<circle cx="96" cy="144.00002" r="10"></circle>
+						<circle cx="160" cy="144.00002" r="10"></circle>
+						<path d="M74.4017,80A175.32467,175.32467,0,0,1,128,72a175.32507,175.32507,0,0,1,53.59754,7.99971" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="12"></path>
+						<path d="M181.59717,176.00041A175.32523,175.32523,0,0,1,128,184a175.32505,175.32505,0,0,1-53.59753-7.99971" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="12"></path>
+						<path d="M155.04392,182.08789l12.02517,24.05047a7.96793,7.96793,0,0,0,8.99115,4.20919c24.53876-5.99927,45.69294-16.45908,61.10024-29.85086a8.05225,8.05225,0,0,0,2.47192-8.38971L205.65855,58.86074a8.02121,8.02121,0,0,0-4.62655-5.10908,175.85294,175.85294,0,0,0-29.66452-9.18289,8.01781,8.01781,0,0,0-9.31925,5.28642l-7.97318,23.91964" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="12"></path>
+						<path d="M100.95624,182.08757l-12.02532,24.0508a7.96794,7.96794,0,0,1-8.99115,4.20918c-24.53866-5.99924-45.69277-16.459-61.10006-29.85069a8.05224,8.05224,0,0,1-2.47193-8.38972L50.34158,58.8607a8.0212,8.0212,0,0,1,4.62655-5.1091,175.85349,175.85349,0,0,1,29.66439-9.18283,8.0178,8.0178,0,0,1,9.31924,5.28642l7.97318,23.91964" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="12"></path>
+					</svg>
+				</span>
+				<span class="checkbox-label">CBSE</span>
+			</span>
+		</label>
+	</div>
+	<div class="checkbox">
+		<label class="checkbox-wrapper">
+			<input type="checkbox" class="checkbox-input" checked />
+			<span class="checkbox-tile">
+				<span class="checkbox-icon">
+					<svg xmlns="http://www.w3.org/2000/svg" width="192" height="192" fill="currentColor" viewBox="0 0 256 256">
+						<circle cx="128" cy="128" r="16"/>
+						<path d="M128,48a8,8,0,0,1-8-8V24a8,8,0,0,1,16,0V40A8,8,0,0,1,128,48Z"/>
+						<path d="M128,240a8,8,0,0,1-8-8V216a8,8,0,0,1,16,0v16A8,8,0,0,1,128,240Z"/>
+						<path d="M208,136H224a8,8,0,0,1,0,16H208a8,8,0,0,1,0-16Z"/>
+						<path d="M48,136H32a8,8,0,0,1,0-16H48a8,8,0,0,1,0,16Z"/>
+						<path d="M176.59,79.41a8,8,0,0,1,11.32-11.32l11.32,11.32a8,8,0,0,1-11.32,11.32Z"/>
+						<path d="M68.69,187.31a8,8,0,0,1,11.32,11.32l-11.32,11.32a8,8,0,0,1-11.32-11.32Z"/>
+						<path d="M187.31,187.31a8,8,0,0,1,11.32,11.32l-11.32,11.32a8,8,0,0,1-11.32-11.32Z"/>
+						<path d="M79.41,68.69a8,8,0,0,1,11.32,11.32L79.41,91.31a8,8,0,0,1-11.32-11.32Z"/>
+						<ellipse cx="128" cy="128" rx="80" ry="48" fill="none" stroke="currentColor" stroke-width="16"/>
+						<ellipse cx="128" cy="128" rx="48" ry="80" fill="none" stroke="currentColor" stroke-width="16"/>
+					  </svg>
+				</span>
+				<span class="checkbox-label">ICSE</span>
+			</span>
+		</label>
+	</div>
+	<div class="checkbox">
+		<label class="checkbox-wrapper">
+			<input type="checkbox" class="checkbox-input" />
+			<span class="checkbox-tile">
+				<span class="checkbox-icon">
+					<svg xmlns="http://www.w3.org/2000/svg" width="192" height="192" fill="currentColor" viewBox="0 0 256 256">
+						<rect width="256" height="256" fill="none"></rect>
+						<polygon points="72 40 184 40 240 104 128 224 16 104 72 40" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="12"></polygon>
+						<polygon points="177.091 104 128 224 78.909 104 128 40 177.091 104" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="12"></polygon>
+						<line x1="16" y1="104" x2="240" y2="104" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="12"></line>
+					</svg>
+				</span>
+				<span class="checkbox-label">Stateboard</span>
+			</span>
+		</label>
+	</div>
+	<div class="checkbox">
+		<label class="checkbox-wrapper">
+			<input type="checkbox" class="checkbox-input" />
+			<span class="checkbox-tile">
+				<span class="checkbox-icon">
+					<svg xmlns="http://www.w3.org/2000/svg" width="192" height="192" fill="currentColor" viewBox="0 0 256 256">
+						<rect width="256" height="256" fill="none"></rect>
+						<circle cx="128" cy="128" r="40" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="12"></circle>
+						<rect x="36" y="36" width="184" height="184" rx="48" stroke-width="12" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" fill="none"></rect>
+						<circle cx="180" cy="75.99998" r="10"></circle>
+					</svg>
+				</span>
+				<span class="checkbox-label">None of these</span>
+			</span>
+		</label>
+	</div>
+	<a href="index.html" class="btn js-trigger-transition"><button class="checkbox-group checkbox-tile1" type="submit">
+		Next
+	</button></a>
+</fieldset>
+
+
+</body>
+</html>

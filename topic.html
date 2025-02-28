@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>ScholarSync</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+
+    <style>
+    .back{
+  
+  transition-duration: 0.4s;
+}
+.back:hover{
+  filter: grayscale(100%);
+
+}
+    #loader {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            background: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            transition: opacity 0.5s;
+            z-index: 9999;
+        }
+        body.loading #loader {
+            opacity: 1;
+            visibility: visible;
+        }
+        body.loaded #loader {
+            opacity: 0;
+            visibility: hidden;
+        }
+* {
+	border: 0;
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+}
+
+:root {
+	font-size: calc(16px + (24 - 16) * (100vw - 320px) / (1920 - 320));
+}
+
+body, button, input {
+	font: 1em Montserrat, sans-serif;
+	line-height: 1.5em;
+}
+
+body, input {
+	color: #171717;
+}
+
+body {
+	background: #f1f1f1;
+	height: 100vh;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.search-bar {
+	display: flex;
+	align-items: center;
+	background: #fff;
+	border-radius: 7.5em;
+	box-shadow: 0 0 0 0.1em #d9d9d9 inset;
+	padding: 0.5em;
+	max-width: 30em;
+	width: 100%;
+}
+
+.search-bar input {
+	flex-grow: 1;
+	background: transparent;
+	border: none;
+	padding: 0.75em;
+	font-size: 1em;
+	border-radius: 4.8em;
+	outline: none;
+}
+
+.search-btn {
+	background: #2762f3;
+	border: none;
+	padding: 0.75em 1em;
+	border-radius: 1.5em;
+	color: white;
+	cursor: pointer;
+	transition: background 0.3s;
+}
+
+.search-btn:hover {
+	background: #0c48db;
+}
+
+@media screen and (prefers-color-scheme: dark) {
+	body, input {
+		color: #f1f1f1;
+	}
+	body {
+		background: #171717;
+	}
+	.search-bar {
+		background: #3d3d3d;
+		box-shadow: 0 0 0 0.1em #3d3d3d inset;
+	}
+	.search-btn {
+		background: #f1f1f1;
+		color: #171717;
+	}
+}
+#myVideo {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  min-width: 100%;
+  min-height: 100%;
+  filter:blur(5px);
+  z-index: -1;
+}
+
+    </style>
+</head>
+<body>
+    <video autoplay muted loop id="myVideo">
+        <source src="bg.mp4" type="video/mp4">
+        </video>
+    
+    <a href="index.html"><img href="board.html" class="back" src="10117734.png" width="50px" height="50px"></a>
+    <form action="" class="search-bar">
+        <input type="search" name="search" pattern=".*\S.*" required>
+        <button class="search-btn" type="submit">
+            <span>Topic</span>
+        </button>
+    </form>
+</body>
+</html>
