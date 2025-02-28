@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YouTube Video Search</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    
+    <div class="container">
+        <video autoplay muted loop id="myVideo">
+            <source src="bg.mp4" type="video/mp4">
+        </video>
+        
+    
+        
+        <form id="searchForm">
+            <input type="text" name="topic" placeholder="Enter topic" required>
+            <input type="number" name="class" placeholder="Class Level" required>
+            <input type="text" name="board" placeholder="Board (CBSE, ICSE, etc.)">
+            <input type="text" name="subject" placeholder="Subject (Math, Science, etc.)">
+            <button type="submit">Search</button>
+        </form>
+
+        <div id="results"></div>
+        
+        <!-- Quiz Modal -->
+        <div id="quizModal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h2 id="quizTitle">Quiz</h2>
+                <div id="quizLoading">Generating quiz questions...</div>
+                <div id="quizContent"></div>
+                <div id="quizResults" class="hidden">
+                    <h3>Your Score: <span id="quizScore">0</span>/<span id="quizTotal">0</span></h3>
+                    <button id="retryQuiz" class="secondary-button">Try Again</button>
+                </div>
+                <button id="submitQuiz" class="primary-button hidden">Submit Answers</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function(){
+            // Search form submission
+            $("#searchForm").submit(function(event){
+                event.preventDefault(); 
+                $("#results").html("<div class='loading'>Searching for videos...</div>");
+
+                $.ajax({
+                    url: "http://127.0.0.1:5000/search",
+                    type: "POST",
+                    data: $(this).serialize(),
+                    success: function(response) {
+                        $("#results").html("");  
+
+                        if (response.videos.length === 0) {
+                            $("#results").html("<p>No videos found. Try different search terms.</p>");
+                            return;
+                        }
+
+                        response.videos.forEach(video => {
+                            let videoId = video.videoId;
+                            let title = video.title;
+                            let thumbnail = video.thumbnail;
+                            let summary = video.summary;
+                            let hasTranscript = video.hasTranscript;
+
+                            let videoElement = $(`
+                                <div class="video-container">
+                                    <h3>${title}</h3>
+                                    <iframe width="560" height="315" src="https://www.youtube.com/embed/${videoId}" 
+                                            frameborder="0" allowfullscreen></iframe>
+                                    <div class="video-info">
+                                        <div class="summary">
+                                            <h4>Summary</h4>
+                                            <p>${summary}</p>
+                                        </div>
+                                        <div class="actions">
+                                            ${hasTranscript ? 
+                                                `<button class="quiz-button" data-video-id="${videoId}" data-video-title="${title}">Take Quiz</button>` : 
+                                                `<button class="quiz-button disabled" disabled>No Quiz Available</button>`}
+                                        </div>
+                                    </div>
+                                </div>
+                            `);
+
+                            $("#results").append(videoElement);
+                        });
+
+                        // Add click event for quiz buttons
+                        $(".quiz-button").click(function() {
+                            if (!$(this).hasClass("disabled")) {
+                                openQuiz($(this).data("video-id"), $(this).data("video-title"));
+                            }
+                        });
+                    },
+                    error: function(xhr) {
+                        console.log("Error:", xhr.responseText);
+                        $("#results").html("<p>Error fetching videos. Check the console for details.</p>");
+                    }
+                });
+            });
+
+            // Quiz modal functionality
+            let currentQuiz = null;
+            let currentAnswers = {};
+
+            function openQuiz(videoId, videoTitle) {
+                // Reset quiz state
+                currentQuiz = null;
+                currentAnswers = {};
+                $("#quizTitle").text("Quiz: " + videoTitle);
+                $("#quizContent").html("");
+                $("#quizLoading").show();
+                $("#quizResults").addClass("hidden");
+                $("#submitQuiz").addClass("hidden");
+                $("#quizModal").addClass("active");
+
+                // Fetch quiz questions
+                $.ajax({
+                    url: "http://127.0.0.1:5000/generate-quiz",
+                    type: "POST",
+                    data: { videoId: videoId },
+                    success: function(response) {
+                        $("#quizLoading").hide();
+                        
+                        try {
+                            
+                            let quizData = typeof response.quiz === 'string' ? 
+                                JSON.parse(response.quiz) : response.quiz;
+                            
+                            if (quizData.questions && quizData.questions.length > 0) {
+                                currentQuiz = quizData;
+                                displayQuiz(quizData);
+                                $("#submitQuiz").removeClass("hidden");
+                            } else {
+                                $("#quizContent").html("<p>Could not generate quiz questions. Please try another video.</p>");
+                            }
+                        } catch (e) {
+                            console.error("Error parsing quiz data:", e);
+                            $("#quizContent").html("<p>Error processing quiz data. Please try again.</p>");
+                        }
+                    },
+                    error: function(xhr) {
+                        $("#quizLoading").hide();
+                        console.log("Error:", xhr.responseText);
+                        $("#quizContent").html("<p>Failed to generate quiz. Please try again later.</p>");
+                    }
+                });
+            }
+
+            function displayQuiz(quizData) {
+                let quizHtml = "";
+                
+                quizData.questions.forEach((q, qIndex) => {
+                    quizHtml += `
+                        <div class="question" data-question="${qIndex}">
+                            <h3>Q${qIndex + 1}. ${q.question}</h3>
+                            <div class="options">
+                    `;
+                    
+                    q.options.forEach((option, oIndex) => {
+                        quizHtml += `
+                            <div class="option">
+                                <input type="radio" id="q${qIndex}_o${oIndex}" 
+                                    name="question${qIndex}" value="${option}">
+                                <label for="q${qIndex}_o${oIndex}">${option}</label>
+                            </div>
+                        `;
+                    });
+                    
+                    quizHtml += `
+                            </div>
+                        </div>
+                    `;
+                });
+                
+                $("#quizContent").html(quizHtml);
+                
+            
+                $('input[type="radio"]').change(function() {
+                    let questionIndex = $(this).closest('.question').data('question');
+                    currentAnswers[questionIndex] = $(this).val();
+                });
+            }
+
+            // Submit quiz answers
+            $("#submitQuiz").click(function() {
+                if (!currentQuiz) return;
+                
+                let score = 0;
+                let totalQuestions = currentQuiz.questions.length;
+   
+                for (let i = 0; i < totalQuestions; i++) {
+                    let userAnswer = currentAnswers[i];
+                    let correctAnswer = currentQuiz.questions[i].correctAnswer;
+                    
+                    let questionEl = $(`.question[data-question="${i}"]`);
+                    questionEl.find('.option').each(function() {
+                        let optionValue = $(this).find('input').val();
+                        
+                        if (optionValue === correctAnswer) {
+                            $(this).addClass('correct');
+                        } else if (optionValue === userAnswer && userAnswer !== correctAnswer) {
+                            $(this).addClass('incorrect');
+                        }
+                    });
+                    
+                    if (userAnswer === correctAnswer) {
+                        score++;
+                    }
+                }
+                
+              
+                $("#quizScore").text(score);
+                $("#quizTotal").text(totalQuestions);
+                $("#quizResults").removeClass("hidden");
+                $(this).addClass("hidden");
+            });
+
+          
+            $("#retryQuiz").click(function() {
+      
+                currentAnswers = {};
+              
+                $(".option").removeClass("correct incorrect");
+          
+                $('input[type="radio"]').prop('checked', false);
+          
+                $("#quizResults").addClass("hidden");
+                $("#submitQuiz").removeClass("hidden");
+            });
+
+        
+            $(".close").click(function() {
+                $("#quizModal").removeClass("active");
+            });
+
+ 
+            $(window).click(function(event) {
+                if ($(event.target).is("#quizModal")) {
+                    $("#quizModal").removeClass("active");
+                }
+            });
+        });
+    </script>
+</body>
+</html>
