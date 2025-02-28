@@ -1,205 +1,153 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
-
-*,
-*:after,
-*:before {
-  box-sizing: border-box;
+*{
+    margin: 0;
+    padding: 0;
 }
 
-.js-trigger-transition button {
-  background-color: #3498db;
-  color: white;
-  padding: 10px 20px;
-  border: none;
-  cursor: pointer;
-  font-size: 16px;
-  border-radius: 5px;
-  transition: background 0.3s;
+body{ 
+    min-height: 100vh; /*ensures the content covers the full page, should be implemented at the start of each web project*/
+    background-color: #a694ff;
+    font-family: "Playfair Display", serif;
+	margin: 0;
 }
 
-.js-trigger-transition button:hover {
-  background-color: #2980b9;
+#glass {
+    background-image: url("/website/static/glass.avif");
+	background-size: contain;
+	background-clip: text;
+	-webkit-background-clip: text;    animation-name: glass;
+  animation-duration: 10s;
+  animation-iteration-count: infinite;
+
+}
+
+nav{
+    background-color:#fc6bed;
+    box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: auto; 
+}
+
+nav ul{
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    list-style: none;
+}
+
+nav li{
+    height: 50px;
+
+}
+
+nav a{
+    height: 100%;
+    padding: 0 30px; /*top+bottom = 0 ..... left+right = 30px */
+    text-decoration: none; /*removes the default underline that comes with a link tag*/
+    display: flex;
+    align-items: center;
+    color: rgb(0, 0, 0);
+    border-radius: 8px;
+}
+
+nav a:hover{
+    color: rgb(255, 133, 133);
+}
+
+nav li:first-child{
+    margin-right: auto; 
+}
+
+.sidebar{
+    position: fixed;
+    top: 0;
+    right: 0;
+    height: 100vh;
+    width: 250px;
+    z-index: 999;
+    background-color: rgba(255, 0, 0, 0.2);
+    backdrop-filter: blur(10px);
+    box-shadow: -10px 0 10px rgba(203, 100, 100, 0.1);
+    display: none;
+    flex-direction: column;
+    align-items: flex-start; /*align-items aligns the items along the horizontal axis.*/
+    justify-content: flex-start; /*justify-content - the items along the vertical axis.*/     
+}
+
+.sidebar li{
+    width: 100%;
+}
+
+.sidebar a{
+    width: 100%;
+}
+
+.menu-btn{
+    display: none;
+}
+
+@media(max-width: 800px){
+    .hideOnMobile{
+        display: none;
+    }
+    .menu-btn{
+        display: block;
+    }
+    .sidebar a{
+        color: lightblue;
+    }
+}
+ 
+@media(max-width: 450px){
+    .sidebar{
+        width: 100%;
+    }
+
+    .sidebar a{
+        color: rgb(255, 255, 255);
+    }
 }
 
 
-body {
-  font-family: "Montserrat", sans-serif;
-  line-height: 1.5;
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: #f8f8f9;
+.active{
+    font-weight: bold;
+    color: rgb(255, 255, 255);
+    border-bottom: 2px solid rgb(0, 0, 0);
 }
 
-.checkbox-group {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  width: 90%;
-  margin-left: auto;
-  margin-right: auto;
-  max-width: 600px;
-  -webkit-user-select: none;
-     -moz-user-select: none;
-      -ms-user-select: none;
-          user-select: none;
-}
-.checkbox-group > * {
-  margin: 0.5rem 0.5rem;
+
+
+.flash-message-success {
+    padding: 10px;
+    margin: 0;
+    border: 1px solid transparent;
+    border-radius: 5px;
+    position: relative;
+    background-color: #d4edda;
+    color: #00ff59;
+    border-color: #c3e6cb;
 }
 
-.checkbox-group-legend {
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: #9c9c9c;
-  text-align: center;
-  line-height: 1.125;
-  margin-bottom: 1.25rem;
+.flash-message-danger {
+    padding: 10px;
+    margin: 0;
+    border: 1px solid transparent;
+    border-radius: 5px;
+    position: relative;
+    background-color: #f8d7da;
+    color: #721c24;
+    border-color: #f5c6cb;
 }
 
-.checkbox-input {
-  clip: rect(0 0 0 0);
-  -webkit-clip-path: inset(100%);
-          clip-path: inset(100%);
-  height: 1px;
-  overflow: hidden;
-  position: absolute;
-  white-space: nowrap;
-  width: 1px;
-}
-.checkbox-input:checked + .checkbox-tile {
-  border-color: #2260ff;
-  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
-  color: #2260ff;
-}
-.checkbox-input:checked + .checkbox-tile:before {
-  transform: scale(1);
-  opacity: 1;
-  background-color: #2260ff;
-  border-color: #2260ff;
-}
-.checkbox-input:checked + .checkbox-tile .checkbox-icon, .checkbox-input:checked + .checkbox-tile .checkbox-label {
-  color: #2260ff;
-}
-.checkbox-input:focus + .checkbox-tile {
-  border-color: #2260ff;
-  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1), 0 0 0 4px #b5c9fc;
-}
-.checkbox-input:focus + .checkbox-tile:before {
-  transform: scale(1);
-  opacity: 1;
+.close-btn {
+    position: absolute;
+    top: 5px;
+    right: 10px;
+    background: none;
+    border: none;
+    font-size: 20px;
+    color: inherit;
+    cursor: pointer;
 }
 
-.checkbox-tile {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  width: 7rem;
-  min-height: 7rem;
-  border-radius: 0.5rem;
-  border: 2px solid #b5bfd9;
-  background-color: #fff;
-  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
-  transition: 0.15s ease;
-  cursor: pointer;
-  position: relative;
-}
-.checkbox-tile:before {
-  content: "";
-  position: absolute;
-  display: block;
-  width: 1.25rem;
-  height: 1.25rem;
-  border: 2px solid #b5bfd9;
-  background-color: #fff;
-  border-radius: 50%;
-  top: 0.25rem;
-  left: 0.25rem;
-  opacity: 0;
-  transform: scale(0);
-  transition: 0.25s ease;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='192' height='192' fill='%23FFFFFF' viewBox='0 0 256 256'%3E%3Crect width='256' height='256' fill='none'%3E%3C/rect%3E%3Cpolyline points='216 72.005 104 184 48 128.005' fill='none' stroke='%23FFFFFF' stroke-linecap='round' stroke-linejoin='round' stroke-width='32'%3E%3C/polyline%3E%3C/svg%3E");
-  background-size: 12px;
-  background-repeat: no-repeat;
-  background-position: 50% 50%;
-}
-.checkbox-tile:hover {
-  border-color: #2260ff;
-}
-.checkbox-tile:hover:before {
-  transform: scale(1);
-  opacity: 1;
-}
 
-.checkbox-icon {
-  transition: 0.375s ease;
-  color: #494949;
-}
-.checkbox-icon svg {
-  width: 3rem;
-  height: 3rem;
-}
-
-.checkbox-label {
-  color: #707070;
-  transition: 0.375s ease;
-  text-align: center;
-}
-.checkbox-tile1 {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  width: 20rem;
-  height: 3rem;
-  border-radius: 0.5rem;
-  border: 2px solid #b5bfd9;
-  background-color: #fff;
-  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
-  transition: 0.15s ease;
-  cursor: pointer;
-  position: relative;
-  text-decoration: none;
-}
-.checkbox-tile1:before {
-  content: "";
-  position: absolute;
-  display: block;
-  width: 1.25rem;
-  height: 1.25rem;
-  border: 2px solid #b5bfd9;
-  background-color: #fff;
-  border-radius: 50%;
-  top: 0.25rem;
-  left: 0.25rem;
-  opacity: 0;
-  transform: scale(0);
-  transition: 0.25s ease;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='192' height='192' fill='%23FFFFFF' viewBox='0 0 256 256'%3E%3Crect width='256' height='256' fill='none'%3E%3C/rect%3E%3Cpolyline points='216 72.005 104 184 48 128.005' fill='none' stroke='%23FFFFFF' stroke-linecap='round' stroke-linejoin='round' stroke-width='32'%3E%3C/polyline%3E%3C/svg%3E");
-  background-size: 12px;
-  background-repeat: no-repeat;
-  background-position: 50% 50%;
-}
-.checkbox-tile1:hover {
-  border-color: #2260ff;
-}
-.back{
-  margin-left: 10px;
-  transition-duration: 0.4s;
-}
-.back:hover{
-  filter: grayscale(100%);
-
-}
-#myVideo {
-  position: fixed;
-  right: 0;
-  bottom: 0;
-  min-width: 100%;
-  min-height: 100%;
-  filter:blur(5px);
-  z-index: -1;
-}
 
